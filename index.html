@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Bench Dashboard</title>
+
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+          integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+    <link rel="stylesheet" href="styles.css" />
+
+    <!-- Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+</head>
+
+<body>
+<div class="container">
+
+    <div class="sidebar">
+        <h2>Bench ID</h2>
+        <ul>
+            <li data-bench-id="1123" class="active">1123</li>
+            <li data-bench-id="1124">1124</li>
+            <li data-bench-id="1125">1125</li>
+            <li data-bench-id="1126">1126</li>
+            <li data-bench-id="1127">1127</li>
+            <li data-bench-id="1128">1128</li>
+            <li data-bench-id="1129">1129</li>
+            <li data-bench-id="1130">1130</li>
+            <li data-bench-id="1131">1131</li>
+            <li data-bench-id="1132">1132</li>
+            <li data-bench-id="1134">1134</li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <div class="dashboard-header">
+            <h1>Smart Bench Dashboard</h1>
+            <p>Location: Delhi | Status: <span style="color: lime;">●</span> Online | Temp: 21°C | Humidity: 70% | Air Quality: 99</p>
+        </div>
+
+        <div class="top-bar">
+            <span>Usage summary: 2025</span>
+            <span id="selectPeriod">📅 Select Period</span>
+            <span>Locate on Map 🗺️</span>
+            <div class="export-container">
+                <button id="exportBtn">Export Data 📤</button>
+                <div id="exportOptions" class="export-options">
+                    <button onclick="exportAsPDF()">Download PDF</button>
+                    <button onclick="exportAsExcel()">Download Excel</button>
+                </div>
+            </div>
+
+            <!-- Replace </br> with <br> -->
+            <br><br>
+
+            <div class="image-gallery">
+                <img src="media/image-1.jpg" alt="Bench 1" />
+                <img src="media/image-2.jpg" alt="Bench 2" />
+                <img src="media/image-3.jpg" alt="Bench 3" />
+            </div>
+
+            <br><br>
+
+            <div class="summary-row">
+                <div class="summary-box">
+                    <i class="fas fa-solar-panel"></i>
+                    <h3 id="producedEnergy">10.71</h3>
+                    <p>kWh produced</p>
+                </div>
+                <div class="summary-box">
+                    <i class="fas fa-battery-half"></i>
+                    <h3 id="consumedEnergy">10.41</h3>
+                    <p>kWh consumed</p>
+                </div>
+                <div class="summary-box">
+                    <i class="fas fa-plug"></i>
+                    <h3 id="usbCharges">2345</h3>
+                    <p>USB chargings</p>
+                </div>
+                <div class="summary-box">
+                    <i class="fas fa-wifi"></i>
+                    <h3 id="wirelessCharges">284</h3>
+                    <p>wireless chargings</p>
+                </div>
+                <div class="summary-box">
+                    <i class="fas fa-users"></i>
+                    <h3 id="wifiUsers">3472</h3>
+                    <p>wi-fi users</p>
+                </div>
+            </div>
+
+            <br><br>
+
+            <div class="stats">
+                <div class="stat-card">
+                    <h3>Solar Power</h3>
+                    <p id="solarPower">66.78 kW</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Battery Voltage</h3>
+                    <p id="batteryVoltage">14.38 V</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Charging Count</h3>
+                    <p id="chargingCount">123</p>
+                </div>
+                <div class="stat-card">
+                    <h3>USB Charges</h3>
+                    <p id="usbCharges2">2345</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Wireless Charges</h3>
+                    <p id="wirelessCharges2">284</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Wi-Fi Users</h3>
+                    <p id="wifiUsers2">3472</p>
+                </div>
+            </div>
+
+            <br>
+
+            <div class="dashboard">
+                <div class="card">
+                    <h3>Solar Power</h3>
+                    <canvas id="solarGauge"></canvas>
+                    <p class="value" id="solarPowerValue">66.78 kW</p>
+                    <p class="note">no alerts</p>
+                </div>
+                <div class="card">
+                    <h3>Battery Voltage</h3>
+                    <canvas id="batteryChart"></canvas>
+                    <p class="value" id="batteryVoltageValue">14.38 V</p>
+                    <p class="note">more</p>
+                </div>
+                <div class="card">
+                    <h3>Charging Count</h3>
+                    <canvas id="chargingChart"></canvas>
+                    <p class="value" id="chargingCountValue">123</p>
+                    <p class="note">more</p>
+                </div>
+                <div class="card">
+                    <h3>Wi-Fi Users</h3>
+                    <canvas id="wifiChart"></canvas>
+                    <p class="value" id="wifiUsersValue">2456</p>
+                    <p class="note"></p>
+                </div>
+                <div class="card">
+                    <h3>Data Usage</h3>
+                    <canvas id="dataChart"></canvas>
+                    <p class="value" id="dataUsageValue">D: 345.99 Gb<br>U: 20.84 Gb</p>
+                    <p class="note"></p>
+                </div>
+                <div class="card">
+                    <h3>Temperature</h3>
+                    <canvas id="tempChart"></canvas>
+                    <p class="value" id="temperatureValue">21°</p>
+                    <p class="note"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="imageModal">
+        <div class="modal-content" id="modalContent">
+            <img id="modalImage" src="" alt="Bench" />
+            <h3 id="modalTitle">Bench ID</h3>
+            <p id="modalDetails">Details go here.</p>
+            <button class="modal-close" onclick="closeModal()">Close</button>
+        </div>
+    </div>
+</div>
+</body>
+
+// JS Kept at last for better loading
+<script src="script.js"></script>
+<script src="chart.js"></script>
+
+</html>
